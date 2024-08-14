@@ -1,0 +1,81 @@
+html {
+    font-size: 2vh;
+}
+
+#main {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    min-width: 22rem;
+}
+
+.u_messages {
+    justify-self: right;
+    background-color: rgb(96, 187, 225);
+    color: white;
+    text-align: right;
+    margin-left: 6rem;
+}
+
+.nu_messages {
+    justify-self: left;
+    background-color: rgba(128, 128, 128, 0.25);
+    margin-right: 6rem;
+}
+
+#messages_div {
+    display: grid;
+    border: 1px solid black;
+    padding: 0.7rem;
+    overflow: auto;
+    max-height: 80vh;
+    border-radius: 20px;
+}
+
+#sending_form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1.5vh;
+}
+
+#message_ts {
+    width: 83%;
+    font-size: 1.2em;
+    border-radius: 1rem;
+    padding-left: 2%;
+}
+
+#send_btn {
+    width: 13%;
+    border-radius: 0.6rem;
+}
+
+.msgs {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    padding: 0.7rem;
+    border-radius: 1rem;
+}
+
+.from_div {
+    font-size: 0.8rem;
+}
+
+.time_div {
+    font-size: 0.65rem;
+}
+
+.msg_div {
+    text-align: left;
+    margin: 0.28rem 0 0.38rem 0;
+}
+
+@media (max-width: 67vh) {
+    html {
+        font-size: 3vw;
+    }
+}

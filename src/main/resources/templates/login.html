@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <script th:src="@{js/loginJS_v0.3.js}"></script>
+    <link th:href="@{css/loginCSS.css}" rel="stylesheet">
+</head>
+<body>
+    <div id="main">
+        <h1>Login</h1>
+
+        <form id="login_form">
+            <p id="login_err" style="visibility: hidden; color: red">Account with that username does not exist.</p>
+            <label for="login_username">Username:</label>
+            <input type="text" id="login_username" name="login_username" class="scaling" autocomplete="off">
+
+            <label for="login_password">Password:</label>
+            <input type="password" id="login_password" name="login_password" class="scaling" autocomplete="off">
+
+            <button id="login_btn" type="submit">Login</button>
+
+            Don't have an account?
+
+            <p onclick="goToRegistration()" id="reg_p">Register here.</p>
+        </form>
+    </div>
+</body>
+</html>

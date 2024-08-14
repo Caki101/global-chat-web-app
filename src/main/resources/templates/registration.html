@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link th:href="@{css/registrationCSS.css}" rel="stylesheet">
+    <script th:src="@{js/registrationJS.js}"></script>
+</head>
+<body>
+    <div id="main">
+        <h1>Registration</h1>
+
+        <form id="registration_form">
+            <label for="registration_username">Username:</label>
+            <input type="text" id="registration_username" name="registration_username" class="scaling" autocomplete="off">
+
+            <label for="registration_password">Password:</label>
+            <input type="password" id="registration_password" name="registration_password" class="scaling" autocomplete="off">
+
+            <label for="confirm_registration_password">Confirm password:</label>
+            <input type="password" id="confirm_registration_password" name="confirm_registration_password" class="scaling" autocomplete="off">
+
+            <button id="registration_btn" type="submit">Register</button>
+
+            Already have an account?
+
+            <p onclick="goToLogin()" id="log_p">Login here.</p>
+        </form>
+    </div>
+</body>
+</html>
