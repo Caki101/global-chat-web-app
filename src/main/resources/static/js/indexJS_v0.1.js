@@ -1,9 +1,9 @@
 let session_username = sessionStorage.getItem("username");
 let stompClient = null;
-let serverIp = null;
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    loadIp();
+document.addEventListener('DOMContentLoaded', _ => {
+    if (session_username == null) window.location.replace("/login");
+    loadChatRoom().finally();
 
     document.getElementById("sending_form").addEventListener('submit', function(event) {
         event.preventDefault();
@@ -18,40 +18,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-async function loadIp() {
-    try {
-        const response = await fetch('config.json');
-        const config = await response.json();
-        serverIp = config.serverIp;
-        console.log('Server IP:', serverIp);
-    } catch (error) {
-        console.error('Error loading config: ', error);
-    }
-
-    if (session_username == null) window.location.replace(`http://${serverIp}/login`);
-    loadChatRoom();
-}
-
 function scrollDown() {
     let div = document.getElementById("messages_div");
     div.scrollTop = div.scrollHeight;
 }
 
 function connect() {
-    let socket = new SockJS("/global_chat_endpoint");
+    let socket = new SockJS("/ws/global_chat_endpoint");
     stompClient = Stomp.over(socket);
     stompClient.debug = null;
     stompClient.connect({}, function (frame) {
-        stompClient.subscribe('/topic/messages', function (message) {
+        stompClient.subscribe("/topic/messages", function (message) {
             addMessageToDiv(JSON.parse(message.body)[0]);
         });
     });
 }
 
 async function loadChatRoom() {
-    let messages = await fetch(`http://${serverIp}/messages`).then(response => response.json());
-
-    let messages_div = document.getElementById("messages_div");
+    let messages = await fetch("/api/messages").then(response => response.json());
 
     for (let msg of messages) {
         addMessageToDiv(msg);
@@ -80,7 +64,7 @@ function addMessageToDiv(message) {
 
 
     new_msg_div.innerHTML = "<div class='from_div'>" + message.from + "</div>"
-        + "<div class='msg_div'>" + message.message + "</div>" + "<div class='time_div'>" + date + time.getHours() + ":" + time.getMinutes() + "</div>";
+        + "<div class='msg_div'>" + message.message + "</div>" + "<div class='time_div'>" + date + " " + time.getHours() + ":" + time.getMinutes() + "</div>";
 
     document.getElementById("messages_div").append(new_msg_div);
     scrollDown();
@@ -88,7 +72,7 @@ function addMessageToDiv(message) {
 
 function logout() {
     sessionStorage.clear();
-    window.location.replace(`http://${serverIp}/login`);
+    window.location.replace("/login");
 }
 
 function sendMessage(msg) {
@@ -98,7 +82,7 @@ function sendMessage(msg) {
     }
 
     if (stompClient !== null) {
-        stompClient.send("/app/send_message", {}, JSON.stringify(message));
+        stompClient.send("/ws/send_message", {}, JSON.stringify(message));
     }
 }
 

@@ -1,12 +1,15 @@
 package com.study.global_chat.classes;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
 
-@Document("users")
+@Entity
+@Table(name = "users")
 public class User {
+    @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", allocationSize = 1, initialValue = 0)
+    @GeneratedValue(generator = "users_id_seq", strategy = GenerationType.SEQUENCE)
     @Id
-    String id;
+    Long id;
+
     String username;
     String password;
 

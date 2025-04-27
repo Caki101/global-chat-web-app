@@ -1,4 +1,4 @@
-package com.study.global_chat.chat_server;
+package com.study.global_chat.classes;
 
 public class IncomingMessage {
     String from;

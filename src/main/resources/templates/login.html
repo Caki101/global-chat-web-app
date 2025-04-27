@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <script th:src="@{js/loginJS_v0.3.js}"></script>
-    <link th:href="@{css/loginCSS.css}" rel="stylesheet">
+    <script th:src="@{/js/loginJS_v0.3.js}"></script>
+    <link th:href="@{/css/loginCSS.css}" rel="stylesheet">
 </head>
 <body>
     <div id="main">
         <h1>Login</h1>
 
         <form id="login_form">
-            <p id="login_err" style="visibility: hidden; color: red">Account with that username does not exist.</p>
+            <p id="login_err">Account with that username does not exist.</p>
             <label for="login_username">Username:</label>
             <input type="text" id="login_username" name="login_username" class="scaling" autocomplete="off">
 

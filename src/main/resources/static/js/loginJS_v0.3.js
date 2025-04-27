@@ -1,35 +1,33 @@
-if (sessionStorage.getItem("username") != null) window.location.replace(`http://${serverIp}`);
-let serverIp = null;
+if (sessionStorage.getItem("username") != null) window.location.replace("/");
 
 async function login(username, password) {
-    let user = await fetch(`http://${serverIp}/user/` + username).then(res => res.json());
+    const req = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-XSRF-TOKEN": getCsrfToken()
+        },
+        credentials: "include",
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    });
 
-    if (user[0].username === username && user[0].password === password) {
+    if (req.status === 200) {
         sessionStorage.setItem("username", username);
-        window.location.replace(`http://${serverIp}`);
+        window.location.replace("/");
     }
-    else if (user[0].username === null) {
-        return false;
-    }
-    //return true;
-}
-
-async function loadIp() {
-    try {
-        const response = await fetch('config.json');
-        const config = await response.json();
-        serverIp = config.serverIp;
-    } catch (error) {
-        console.error('Error loading config: ', error);
+    else {
+        console.log("Wrong credentials.");
     }
 }
 
 function goToRegistration(){
-    window.location.replace(`http://${serverIp}/registration`);
+    window.location.replace("/registration");
 }
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    loadIp();
+document.addEventListener('DOMContentLoaded', _ => {
 
     document.getElementById("login_form").addEventListener('submit', function(event) {
         event.preventDefault();
@@ -44,9 +42,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
-    document.getElementById("login_username").addEventListener('input', (event => {
+    document.getElementById("login_username").addEventListener('input', (_ => {
         if (document.getElementById("login_err").checkVisibility()){
             document.getElementById("login_err").setAttribute("visibility","hidden");
         }
     }))
 });
+
+function getCsrfToken() {
+    return document.cookie
+        .split('; ')
+        .find(row => row.startsWith('XSRF-TOKEN='))?.split('=')[1];
+}

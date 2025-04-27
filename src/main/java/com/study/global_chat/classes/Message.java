@@ -1,23 +1,38 @@
 package com.study.global_chat.classes;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
 
-@Document("messages")
+import java.sql.Timestamp;
+
+@Entity
+@Table(name = "messages", schema = "public")
 public class Message {
+    @SequenceGenerator(name = "msg_id_seq", sequenceName = "msg_id_seq", allocationSize = 1, initialValue = 0)
+    @GeneratedValue(generator = "msg_id_seq", strategy = GenerationType.SEQUENCE)
     @Id
-    private String id;
+    Long id;
+
+    @Column(name = "\"from\"")
     String from;
+
     String message;
-    String timestamp;
+    Timestamp timestamp;
 
     public Message() {
     }
 
-    public Message(String from, String message, String timestamp) {
+    public Message(String from, String message, Timestamp timestamp) {
         this.from = from;
         this.message = message;
         this.timestamp = timestamp;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFrom() {
@@ -36,11 +51,11 @@ public class Message {
         this.message = message;
     }
 
-    public String getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 

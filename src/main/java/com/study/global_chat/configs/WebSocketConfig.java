@@ -1,4 +1,4 @@
-package com.study.global_chat.chat_server;
+package com.study.global_chat.configs;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -12,12 +12,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic");
-        config.setApplicationDestinationPrefixes("/app");
+        config.setApplicationDestinationPrefixes("/ws");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/global_chat_endpoint").withSockJS();
+        registry.addEndpoint("/ws/global_chat_endpoint").withSockJS();
     }
-
 }
